@@ -1,4 +1,5 @@
-﻿format binary
+;FASM assembler
+format binary
 use16
 org 7c00h
 
