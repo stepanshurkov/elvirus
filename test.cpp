@@ -18,18 +18,18 @@ int main() {
                                         printf("Error\n");
                                         return 1;
                                         }
-    char lol;
+    char buf;
     while (!feof(f1)) {
-           lol=getc(f1);
+           buf=getc(f1);
            if (!feof(f1)) {
-           fputc(lol,f12);
+           fputc(buf,f12);
            }
 	}
     fclose(f1);
     while (!feof(f2)) {
-           lol=getc(f2);
+           buf=getc(f2);
            if (!feof(f2)) {
-           fputc(lol,f12);
+           fputc(buf,f12);
            }
 	}
     fclose(f2);
